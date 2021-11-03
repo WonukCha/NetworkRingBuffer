@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "Ringbuffer.h"
+#include "RingbufferLock.h"
 
 using namespace std;
 
@@ -8,7 +8,7 @@ using namespace std;
 
 int main(void)
 {
-	Ringbuffer rr;
+	RingbufferLock rbl;
 	char input[TEST_SIZE];
 
 	for (int i = 0; i < TEST_SIZE; i++)
@@ -17,7 +17,7 @@ int main(void)
 	}
 	while (true)
 	{
-		rr.PutData(input, sizeof(input));
+		rbl.PutData(input, sizeof(input));
 	}
 	return 0;
 }

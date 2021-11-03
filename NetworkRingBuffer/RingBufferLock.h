@@ -18,7 +18,7 @@ typedef enum
 	RBUF_FULL
 } rbuf_msg_e;
 
-class Ringbuffer
+class RingbufferLock
 {
 public:
 	void Init()
