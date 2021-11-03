@@ -1,7 +1,7 @@
 #pragma once
 #include <mutex>
 
-constexpr size_t MAX_BUFFER_SIZE = 4194304;
+constexpr size_t MAX_BUFFER_SIZE = 100;
 constexpr size_t LAST_BUFFER_INDEX = MAX_BUFFER_SIZE - 1;
 
 // ring buffer options
@@ -24,7 +24,7 @@ public:
 	void Init()
 	{
 		std::lock_guard<std::mutex> lock_guard(mCS);
-		memcpy(mBuffer,0,sizeof(mBuffer));
+		memset(mBuffer, 0, sizeof(mBuffer));
 		mHead = 0;
 		mTail = 0;
 		mSize = 0;
@@ -40,6 +40,11 @@ public:
 		return MAX_BUFFER_SIZE == mSize;
 	}
 
+	size_t GetSize()
+	{
+		std::lock_guard<std::mutex> lock_guard(mCS);
+		return mSize;
+	}
 
 	bool PutData(const void* data, size_t size)
 	{
@@ -75,7 +80,7 @@ public:
 						break;
 				}
 			}
-			
+
 			if (curHead < nextHead)
 			{
 				memcpy(&mBuffer[curHead], data, size);
@@ -84,7 +89,7 @@ public:
 			{
 				size_t firstSize = MAX_BUFFER_SIZE - curHead;
 				size_t SecondSize = size - firstSize;
-				
+
 				memcpy(&mBuffer[curHead], &dataPos[0], firstSize);
 				memcpy(&mBuffer[0], &dataPos[firstSize], SecondSize);
 			}
