@@ -1,7 +1,7 @@
 #pragma once
 #include <mutex>
 
-constexpr size_t MAX_BUFFER_SIZE = 100;
+constexpr size_t MAX_BUFFER_SIZE = 4096;
 constexpr size_t LAST_BUFFER_INDEX = MAX_BUFFER_SIZE - 1;
 
 // ring buffer options
@@ -57,6 +57,10 @@ public:
 
 			if (size > MAX_BUFFER_SIZE)
 				break;
+
+			if (size + mSize > MAX_BUFFER_SIZE)
+				break;
+
 			char* dataPos = (char*)data;
 			unsigned int curHead = mHead;
 			unsigned int nextHead = mHead + size;
