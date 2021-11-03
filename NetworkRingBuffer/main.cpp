@@ -1,20 +1,23 @@
 #include <iostream>
-#include <string>
+
+#include "Ringbuffer.h"
 
 using namespace std;
 
+#define TEST_SIZE 7
+
 int main(void)
 {
+	Ringbuffer rr;
+	char input[TEST_SIZE];
 
+	for (int i = 0; i < TEST_SIZE; i++)
+	{
+		input[i] = i;
+	}
 	while (true)
 	{
-		std::string inputCmd;
-		std::getline(std::cin, inputCmd);
-
-		if (inputCmd == "quit")
-		{
-			break;
-		}
+		rr.PutData(input, sizeof(input));
 	}
 	return 0;
 }
