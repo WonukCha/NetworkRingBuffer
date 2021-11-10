@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "RingbufferLock.h"
+#include "RingbufferLockfree.hpp"
 
 using namespace std;
 
@@ -8,7 +8,7 @@ using namespace std;
 
 int main(void)
 {
-	RingbufferLock rr;
+	RingbufferLockfree rr;
 	char input[TEST_SIZE];
 
 	for (int i = 0; i < TEST_SIZE; i++)

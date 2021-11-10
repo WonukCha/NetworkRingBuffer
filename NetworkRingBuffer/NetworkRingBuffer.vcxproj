@@ -141,8 +141,8 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="RingBufferLock.h" />
-    <ClInclude Include="RingBufferLockfree.h" />
+    <ClInclude Include="RingBufferLock.hpp" />
+    <ClInclude Include="RingBufferLockfree.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
