@@ -181,7 +181,7 @@ public:
 
 private:
 	//TODO
-	//1. atomic 변수를 통한 lock 프리구조 해보기
+	//1. atomic_flag 변수를 통한 lock 프리구조 해보기 + lock guard 까지
 	//2. windows interlock 구조로 해보기
 	std::mutex mCS;
 	char mBuffer[MAX_BUFFER_SIZE] = { 0, };

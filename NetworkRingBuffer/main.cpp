@@ -1,42 +1,70 @@
 #include <iostream>
+#include <thread>
+#include <vector>
 
 #include "RingbufferLockfree.hpp"
+//#include "RingbufferLock.hpp"
 
 using namespace std;
 
-#define TEST_SIZE 7
+#define THREAD_SIZE 5
+char arr[10] = {'0','1', '2', '3', '4', '5', '6', '7', '8', '9'};
+RingbufferLockfree rb;
+//RingbufferLock rb;
+
+void func1()
+{
+	for (int i = 0; i < 1000000; i++)
+	{
+		rb.PutData(arr, sizeof(arr));
+	}
+
+}
+
+void func2()
+{
+	for (int i = 0; i < 1000000; i++)
+	{
+		rb.GetData(arr,10);
+	}
+
+}
+
+void func3()
+{
+	for (int i = 0; i < 1000000; i++)
+	{
+		rb.GetSize();
+	}
+}
 
 int main(void)
 {
-	RingbufferLockfree rr;
-	char input[TEST_SIZE];
+	vector<thread> v;
 
-	for (int i = 0; i < TEST_SIZE; i++)
+	std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
+
+	for (int i = 0; i < 1; i++)
 	{
-		input[i] = i;
+		v.emplace_back(func1);
 	}
-	string str;
-	char buf[1000] = { 0, };
-	while (true)
+	for (int i = 0; i < 1; i++)
 	{
-		memset(buf, 0, sizeof(buf));
-		cin >> str;
-
-		if (str == "1")
-		{
-			cin >> str;
-			strcpy_s(buf, str.c_str());
-			rr.PutData(buf, str.size());
-		}
-		else
-		{
-			size_t size;
-			cin >> size;
-
-			rr.GetData(buf, size);
-			cout << buf << "\r\n";
-		}
-
+		v.emplace_back(func2);
 	}
+	for (int i = 0; i < 1; i++)
+	{
+		v.emplace_back(func3);
+	}
+
+	for (auto& t : v)
+	{
+		if (t.joinable())
+			t.join();
+	}
+
+	std::chrono::duration<double> sec = std::chrono::system_clock::now() - start;
+	std::cout << "Test() 함수를 수행하는 걸린 시간(초) : " << sec.count() << " seconds" << std::endl;
+
 	return 0;
 }
