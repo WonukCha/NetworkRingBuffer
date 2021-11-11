@@ -2,15 +2,29 @@
 #include <thread>
 #include <vector>
 
+#define free
+
+#ifdef free
 #include "RingbufferLockfree.hpp"
-//#include "RingbufferLock.hpp"
+#else
+#include "RingbufferLock.hpp"
+#endif // free
+
+
+
 
 using namespace std;
 
 #define THREAD_SIZE 5
-char arr[10] = {'0','1', '2', '3', '4', '5', '6', '7', '8', '9'};
+char arr[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+
+
+#ifdef free
 RingbufferLockfree rb;
-//RingbufferLock rb;
+#else
+RingbufferLock rb;
+#endif // free
+
 
 void func1()
 {
@@ -44,15 +58,15 @@ int main(void)
 
 	std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
 
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		v.emplace_back(func1);
 	}
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		v.emplace_back(func2);
 	}
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		v.emplace_back(func3);
 	}
