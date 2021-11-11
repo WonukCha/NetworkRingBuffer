@@ -2,15 +2,9 @@
 #include <thread>
 #include <vector>
 
-#define free
-
-#ifdef free
-#include "RingbufferLockfree.hpp"
-#else
-#include "RingbufferLock.hpp"
-#endif // free
-
-
+//#include "RingbufferLockfree.hpp"
+//#include "RingbufferLock.hpp"
+#include "RingBufferLockAtomic.hpp"
 
 
 using namespace std;
@@ -19,11 +13,11 @@ using namespace std;
 char arr[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
 
-#ifdef free
-RingbufferLockfree rb;
-#else
-RingbufferLock rb;
-#endif // free
+//RingbufferLockfree rb;
+//RingbufferLock rb;
+RingBufferLockAtomic rb;
+
+
 
 
 void func1()

@@ -26,5 +26,11 @@
     <ClInclude Include="RingBufferLock.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="RingBufferLockAtomic.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="AtomicLockGuard.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
