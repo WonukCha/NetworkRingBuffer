@@ -52,16 +52,10 @@ int main(void)
 
 	std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		v.emplace_back(func1);
-	}
-	for (int i = 0; i < 2; i++)
-	{
 		v.emplace_back(func2);
-	}
-	for (int i = 0; i < 2; i++)
-	{
 		v.emplace_back(func3);
 	}
 
