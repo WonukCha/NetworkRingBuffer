@@ -2,6 +2,7 @@
 #include <mutex>
 
 constexpr size_t MAX_BUFFER_SIZE = 4096000;
+//constexpr size_t MAX_BUFFER_SIZE = 100;
 constexpr size_t LAST_BUFFER_INDEX = MAX_BUFFER_SIZE - 1;
 
 // ring buffer options
@@ -62,43 +63,44 @@ public:
 				break;
 
 			char* dataPos = (char*)data;
-			unsigned int curHead = mHead;
-			unsigned int nextHead = mHead + (unsigned int)size;
+			unsigned __int64 curTailBegin = mTail;
+			unsigned __int64 nextTail = mTail + (unsigned __int64)size;
+			unsigned __int64 curTailEnd = mTail + (unsigned __int64)size - 1;
+
 			bool bOver = false;
-			if (nextHead > LAST_BUFFER_INDEX)
+			if (nextTail > LAST_BUFFER_INDEX)
 			{
-				nextHead = nextHead - MAX_BUFFER_SIZE;
+				nextTail = nextTail - MAX_BUFFER_SIZE;
 				bOver = true;
 			}
 			if (mHead != mTail)
 			{
 				if (bOver)
 				{
-					if ((curHead <= mTail && mTail < MAX_BUFFER_SIZE)
-						|| (0 <= mTail && mTail < nextHead))
+					if ((curTailBegin <= mHead && mHead < MAX_BUFFER_SIZE)
+						|| (0 <= mHead && mHead < nextTail))
 						break;
 				}
 				else
 				{
-					if (curHead <= mTail && mTail < nextHead)
+					if (curTailBegin <= mHead && mHead < nextTail)
 						break;
 				}
 			}
-
-			if (curHead < nextHead)
+			if (curTailBegin < MAX_BUFFER_SIZE && curTailEnd < MAX_BUFFER_SIZE && curTailBegin < curTailEnd)
 			{
-				memcpy(&mBuffer[curHead], data, size);
+				memcpy(&mBuffer[curTailBegin], data, size);
 			}
 			else
 			{
-				size_t firstSize = MAX_BUFFER_SIZE - curHead;
+				size_t firstSize = MAX_BUFFER_SIZE - curTailBegin;
 				size_t SecondSize = size - firstSize;
 
-				memcpy(&mBuffer[curHead], &dataPos[0], firstSize);
+				memcpy(&mBuffer[curTailBegin], &dataPos[0], firstSize);
 				memcpy(&mBuffer[0], &dataPos[firstSize], SecondSize);
 			}
 
-			mHead = nextHead;
+			mTail = nextTail;
 			mSize += size;
 			bResult = true;
 		} while (false);
@@ -120,33 +122,45 @@ public:
 				break;
 
 			char* dataPos = (char*)data;
-			unsigned __int64 curTail = mTail;
-			unsigned __int64 nextTail = mTail + (unsigned __int64)size;
-			unsigned __int64 curEnd = mTail + (unsigned __int64)size - 1;
+			unsigned __int64 curHeadBegin = mHead;
+			unsigned __int64 nextHead = mHead + (unsigned __int64)size;
+			unsigned __int64 curHeadEnd = mHead + (unsigned __int64)size - 1;
+			bool bOver = false;
 
-			if (nextTail > LAST_BUFFER_INDEX)
+			if (nextHead > LAST_BUFFER_INDEX)
 			{
-				nextTail = nextTail - MAX_BUFFER_SIZE;
+				nextHead = nextHead - MAX_BUFFER_SIZE;
+				bOver = true;
 			}
-			if ((mHead > curTail && mHead < nextTail) || (mHead < curTail && mHead > nextTail))
+			if (mHead != mTail)
 			{
-				break;
+				if (bOver)
+				{
+					if ((curHeadBegin <= mTail && mTail < MAX_BUFFER_SIZE)
+						|| (0 <= mTail && mTail < nextHead))
+						break;
+				}
+				else
+				{
+					if (curHeadBegin <= mTail && mTail < nextHead)
+						break;
+				}
 			}
-			if (curTail <= curEnd)
+			if (curHeadBegin < MAX_BUFFER_SIZE && curHeadEnd < MAX_BUFFER_SIZE && curHeadBegin < curHeadEnd)
 			{
-				memcpy(dataPos, &mBuffer[curTail], size);
+				memcpy(dataPos, &mBuffer[curHeadBegin], size);
 			}
 			else
 			{
-				size_t firstSize = MAX_BUFFER_SIZE - curTail;
+				size_t firstSize = MAX_BUFFER_SIZE - curHeadBegin;
 				size_t SecondSize = size - firstSize;
 
-				memcpy(&dataPos[curTail], &mBuffer[curTail], firstSize);
+				memcpy(&dataPos[0], &mBuffer[curHeadBegin], firstSize);
 				memcpy(&dataPos[firstSize], &mBuffer[0], SecondSize);
 			}
 			if (clear == RBUF_CLEAR)
 			{
-				mTail = nextTail;
+				mHead = nextHead;
 				mSize -= size;
 			}
 			szResult = size;
@@ -171,14 +185,14 @@ public:
 			if (size > mSize)
 				break;
 
-			unsigned int curTail = mTail;
-			unsigned int nextTail = mTail + (unsigned int)size;
-			if (nextTail > LAST_BUFFER_INDEX)
+			unsigned int curHead = mHead;
+			unsigned int nextHead = mHead + (unsigned int)size;
+			if (nextHead > LAST_BUFFER_INDEX)
 			{
-				nextTail = nextTail - MAX_BUFFER_SIZE;
+				nextHead = nextHead - MAX_BUFFER_SIZE;
 			}
 
-			mTail = nextTail;
+			mHead = nextHead;
 			mSize -= size;
 
 			bResult = true;
