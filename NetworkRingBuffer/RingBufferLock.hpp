@@ -87,7 +87,7 @@ public:
 						break;
 				}
 			}
-			if (curTailBegin < MAX_BUFFER_SIZE && curTailEnd < MAX_BUFFER_SIZE && curTailBegin < curTailEnd)
+			if (curTailBegin < MAX_BUFFER_SIZE && curTailEnd < MAX_BUFFER_SIZE && curTailBegin <= curTailEnd)
 			{
 				memcpy(&mBuffer[curTailBegin], data, size);
 			}
@@ -146,7 +146,7 @@ public:
 						break;
 				}
 			}
-			if (curHeadBegin < MAX_BUFFER_SIZE && curHeadEnd < MAX_BUFFER_SIZE && curHeadBegin < curHeadEnd)
+			if (curHeadBegin < MAX_BUFFER_SIZE && curHeadEnd < MAX_BUFFER_SIZE && curHeadBegin <= curHeadEnd)
 			{
 				memcpy(dataPos, &mBuffer[curHeadBegin], size);
 			}
