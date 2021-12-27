@@ -32,5 +32,8 @@
     <ClInclude Include="AtomicLockGuard.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="RingBuffer.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
