@@ -3,24 +3,23 @@
 #include <vector>
 
 #include "Ringbuffer.hpp"
-#include "RingbufferLock.hpp"
+#include "RingBufferMutexLock.hpp"
 #include "RingBufferLockAtomic.hpp"
-#include "RingbufferLockfree.hpp"
-#include "RingBufferSpinLock.hpp"
-
-
+#include "RingbufferMutexSpinLock.hpp"
+#include "RingBufferIterlockSpinLock.hpp"
+#include "RingBufferCSLock.hpp"
 
 using namespace std;
 
 #define THREADS_MULTIPLID_BY_3 2
 char arr[77777] = {0,};
 
-
 RingBuffer rb0;
-RingbufferLock rb1;
+RingbufferMutexLock rb1;
 RingBufferLockAtomic rb2;
-RingbufferLockfree rb3;
-RingBufferSpinLock rb4;
+RingbufferMutexSpinLock rb3;
+RingBufferIterlockSpinLock rb4;
+RingBufferCSLock rb5;
 
 void Rb0PutData()
 {
@@ -29,7 +28,6 @@ void Rb0PutData()
 		rb0.PutData(arr, sizeof(arr));
 	}
 }
-
 void Rb0GetData()
 {
 	for (int i = 0; i < 1000000; i++)
@@ -37,7 +35,6 @@ void Rb0GetData()
 		rb0.GetData(arr, 10);
 	}
 }
-
 void Rb0GetSize()
 {
 	for (int i = 0; i < 1000000; i++)
@@ -53,7 +50,6 @@ void Rb1PutData()
 		rb1.PutData(arr, sizeof(arr));
 	}
 }	
-
 void Rb1GetData()
 {
 	for (int i = 0; i < 1000000; i++)
@@ -61,7 +57,6 @@ void Rb1GetData()
 		rb1.GetData(arr,10);
 	}
 }
-
 void Rb1GetSize()
 {
 	for (int i = 0; i < 1000000; i++)
@@ -70,7 +65,6 @@ void Rb1GetSize()
 	}
 }
 
-
 void Rb2PutData()
 {
 	for (int i = 0; i < 1000000; i++)
@@ -78,7 +72,6 @@ void Rb2PutData()
 		rb2.PutData(arr, sizeof(arr));
 	}
 }
-
 void Rb2GetData()
 {
 	for (int i = 0; i < 1000000; i++)
@@ -86,7 +79,6 @@ void Rb2GetData()
 		rb2.GetData(arr, 10);
 	}
 }
-
 void Rb2GetSize()
 {
 	for (int i = 0; i < 1000000; i++)
@@ -95,8 +87,6 @@ void Rb2GetSize()
 	}
 }
 
-
-
 void Rb3PutData()
 {
 	for (int i = 0; i < 1000000; i++)
@@ -104,7 +94,6 @@ void Rb3PutData()
 		rb3.PutData(arr, sizeof(arr));
 	}
 }
-
 void Rb3GetData()
 {
 	for (int i = 0; i < 1000000; i++)
@@ -112,7 +101,6 @@ void Rb3GetData()
 		rb3.GetData(arr, 10);
 	}
 }
-
 void Rb3GetSize()
 {
 	for (int i = 0; i < 1000000; i++)
@@ -128,7 +116,6 @@ void Rb4PutData()
 		rb4.PutData(arr, sizeof(arr));
 	}
 }
-
 void Rb4GetData()
 {
 	for (int i = 0; i < 1000000; i++)
@@ -136,7 +123,6 @@ void Rb4GetData()
 		rb4.GetData(arr, 10);
 	}
 }
-
 void Rb4GetSize()
 {
 	for (int i = 0; i < 1000000; i++)
@@ -145,6 +131,27 @@ void Rb4GetSize()
 	}
 }
 
+void Rb5PutData()
+{
+	for (int i = 0; i < 1000000; i++)
+	{
+		rb5.PutData(arr, sizeof(arr));
+	}
+}
+void Rb5GetData()
+{
+	for (int i = 0; i < 1000000; i++)
+	{
+		rb5.GetData(arr, 10);
+	}
+}
+void Rb5GetSize()
+{
+	for (int i = 0; i < 1000000; i++)
+	{
+		rb5.GetSize();
+	}
+}
 
 int main(void)
 {
@@ -164,7 +171,7 @@ int main(void)
 				t.join();
 		}
 		std::chrono::duration<double> sec = std::chrono::system_clock::now() - start;
-		std::cout << "Ringbuffer 함수를 수행하는 걸린 시간(초) : " << sec.count() << " seconds" << std::endl;
+		std::cout << "RingBuffer 함수를 수행하는 걸린 시간(초) : " << sec.count() << " seconds" << std::endl;
 	}
 
 	{
@@ -183,7 +190,7 @@ int main(void)
 				t.join();
 		}
 		std::chrono::duration<double> sec = std::chrono::system_clock::now() - start;
-		std::cout << "RingbufferLock 함수를 수행하는 걸린 시간(초) : " << sec.count() << " seconds" << std::endl;
+		std::cout << "RingBufferMutexLock 함수를 수행하는 걸린 시간(초) : " << sec.count() << " seconds" << std::endl;
 	}
 	
 	{
@@ -221,7 +228,7 @@ int main(void)
 				t.join();
 		}
 		std::chrono::duration<double> sec = std::chrono::system_clock::now() - start;
-		std::cout << "RingbufferLockfree 함수를 수행하는 걸린 시간(초) : " << sec.count() << " seconds" << std::endl;
+		std::cout << "RingbufferMutexSpinLock 함수를 수행하는 걸린 시간(초) : " << sec.count() << " seconds" << std::endl;
 	}
 
 	{
@@ -240,7 +247,26 @@ int main(void)
 				t.join();
 		}
 		std::chrono::duration<double> sec = std::chrono::system_clock::now() - start;
-		std::cout << "RingBufferSpinLock 함수를 수행하는 걸린 시간(초) : " << sec.count() << " seconds" << std::endl;
+		std::cout << "RingBufferIterlockSpinLock 함수를 수행하는 걸린 시간(초) : " << sec.count() << " seconds" << std::endl;
+	}
+
+	{
+		vector<thread> v;
+		std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
+		for (int i = 0; i < THREADS_MULTIPLID_BY_3; i++)
+		{
+			v.emplace_back(Rb5PutData);
+			v.emplace_back(Rb5GetData);
+			v.emplace_back(Rb5GetSize);
+		}
+
+		for (auto& t : v)
+		{
+			if (t.joinable())
+				t.join();
+		}
+		std::chrono::duration<double> sec = std::chrono::system_clock::now() - start;
+		std::cout << "RingBufferCSLock 함수를 수행하는 걸린 시간(초) : " << sec.count() << " seconds" << std::endl;
 	}
 	return 0;
 }

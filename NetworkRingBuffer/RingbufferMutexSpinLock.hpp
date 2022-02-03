@@ -3,7 +3,7 @@
 #include <mutex>
 
 
-class RingbufferLockfree : public RingBuffer
+class RingbufferMutexSpinLock : public RingBuffer
 {
 public:
 	void Init()

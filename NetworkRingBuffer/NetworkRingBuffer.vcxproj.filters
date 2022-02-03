@@ -20,10 +20,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="RingBufferLockfree.hpp">
+    <ClInclude Include="RingbufferMutexSpinLock.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="RingBufferLock.hpp">
+    <ClInclude Include="RingBufferMutexLock.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="RingBufferLockAtomic.hpp">
@@ -35,10 +35,13 @@
     <ClInclude Include="RingBuffer.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="SpinLock.hpp">
+    <ClInclude Include="IterlockSpinLock.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="RingBufferSpinLock.hpp">
+    <ClInclude Include="RingBufferIterlockSpinLock.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RingBufferCSLock.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

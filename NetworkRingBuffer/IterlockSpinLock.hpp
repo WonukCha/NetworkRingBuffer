@@ -3,7 +3,7 @@
 #include <malloc.h>
 #include <iostream>
 
-class SpinLock
+class IterlockSpinLock
 {
 	//volatile LONG* pValue = 0;
 	//SpinLock()
