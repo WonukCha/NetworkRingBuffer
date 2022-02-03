@@ -2,9 +2,9 @@
 
 스레드 6개 진행 시
 
-단위:초	1차	2차	3차	4차	5차
-while(atomic_flag)	2.76087	2.24016	2.4435	2.82407	2.34989
-mutex	1.57901	1.59718	1.57237	1.58186	1.55151
-mutex.trylock	1.92458	2.22589	2.06255	1.84883	1.88331
-
-i7-7660U 2.50GH
+RingBuffer 함수를 수행하는 걸린 시간(초) : 0.0569845 seconds
+RingBufferMutexLock 함수를 수행하는 걸린 시간(초) : 1.15928 seconds
+RingBufferLockAtomic 함수를 수행하는 걸린 시간(초) : 1.71458 seconds
+RingbufferMutexSpinLock 함수를 수행하는 걸린 시간(초) : 1.50521 seconds
+RingBufferIterlockSpinLock 함수를 수행하는 걸린 시간(초) : 0.396393 seconds
+RingBufferCSLock 함수를 수행하는 걸린 시간(초) : 0.407347 seconds
