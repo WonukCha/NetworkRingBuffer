@@ -9,8 +9,6 @@
 #include "RingBufferIterlockSpinLock.hpp"
 #include "RingBufferCSLock.hpp"
 
-using namespace std;
-
 #define THREADS_MULTIPLID_BY_3 2
 char arr[77777] = {0,};
 
@@ -156,7 +154,7 @@ void Rb5GetSize()
 int main(void)
 {
 	{
-		vector<thread> v;
+		std::vector<std::thread> v;
 		std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
 		for (int i = 0; i < THREADS_MULTIPLID_BY_3; i++)
 		{
@@ -175,7 +173,7 @@ int main(void)
 	}
 
 	{
-		vector<thread> v;
+		std::vector<std::thread> v;
 		std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
 		for (int i = 0; i < THREADS_MULTIPLID_BY_3; i++)
 		{
@@ -194,7 +192,7 @@ int main(void)
 	}
 	
 	{
-		vector<thread> v;
+		std::vector<std::thread> v;
 		std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
 		for (int i = 0; i < THREADS_MULTIPLID_BY_3; i++)
 		{
@@ -213,7 +211,7 @@ int main(void)
 	}
 
 	{
-		vector<thread> v;
+		std::vector<std::thread> v;
 		std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
 		for (int i = 0; i < THREADS_MULTIPLID_BY_3; i++)
 		{
@@ -232,7 +230,7 @@ int main(void)
 	}
 
 	{
-		vector<thread> v;
+		std::vector<std::thread> v;
 		std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
 		for (int i = 0; i < THREADS_MULTIPLID_BY_3; i++)
 		{
@@ -251,7 +249,7 @@ int main(void)
 	}
 
 	{
-		vector<thread> v;
+		std::vector<std::thread> v;
 		std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
 		for (int i = 0; i < THREADS_MULTIPLID_BY_3; i++)
 		{
